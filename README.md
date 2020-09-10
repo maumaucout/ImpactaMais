@@ -4,4 +4,4 @@ Projeto Integrador
 
 Integrantes:
 * André Willian
-</br>* Jéssica Lorena
+* Jéssica Lorena
