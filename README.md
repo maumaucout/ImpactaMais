@@ -4,4 +4,4 @@ Projeto Integrador
 
 Integrantes:
 * André Willian
-* Jéssica Lorena
+* <a href=https://github.com/Jessica-Lorena>Jéssica Lorena</a>
