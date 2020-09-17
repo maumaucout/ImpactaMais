@@ -31,7 +31,7 @@ public class Usuario {
 	private String email;
 	
 	@NotNull
-	@Size(min = 1, max = 20)
+	@Size(min = 6, max = 500)
 	private String senha;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -76,6 +76,11 @@ public class Usuario {
 
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
+	}
+
+	public String getUsuario() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

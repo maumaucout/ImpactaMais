@@ -1,6 +1,7 @@
 package com.zeroseis.impactamais.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +16,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zeroseis.impactamais.model.UserLogin;
 import com.zeroseis.impactamais.model.Usuario;
 import com.zeroseis.impactamais.repository.UsuarioRepository;
+import com.zeroseis.impactamais.service.UsuarioService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@Autowired
 	private UsuarioRepository repository;
 
@@ -35,15 +41,27 @@ public class UsuarioController {
 	public ResponseEntity<Usuario> getById(@PathVariable long id) {
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 	}
+	
+	@PostMapping ("/logar")
+	public ResponseEntity<UserLogin> Autentication(@RequestBody Optional<UserLogin> user){
+		return usuarioService.Logar(user).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+	}
+	
+	@PostMapping("/cadastrar")
+	public ResponseEntity<Usuario> Post(@RequestBody Usuario email){
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.CadastrarUsuario(email));
+		
+	}
 
 	@PostMapping
-	public ResponseEntity<Usuario> post (@RequestBody Usuario nome) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(nome));
+	public ResponseEntity<Usuario> post (@RequestBody Usuario email) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(email));
 	}
 
 	@PutMapping
-	public ResponseEntity<Usuario> put (@RequestBody Usuario nome){
-		return ResponseEntity.ok(repository.save(nome));
+	public ResponseEntity<Usuario> put (@RequestBody Usuario email){
+		return ResponseEntity.ok(repository.save(email));
 	}
 
 	@DeleteMapping("/{id}")
