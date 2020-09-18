@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zeroseis.impactamais.model.Hospital;
 import com.zeroseis.impactamais.model.Postagem;
 import com.zeroseis.impactamais.repository.PostagemRepository;
 
@@ -34,6 +35,16 @@ public class PostagemController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> getById(@PathVariable long id) {
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/cidade/{cidade}")
+	public ResponseEntity<Hospital> getByCidade(@PathVariable String cidade) {
+		return repository.findAllByCidadeContainingIgnoreCase(cidade).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/sangue/{sangue}")
+	public ResponseEntity<Hospital> getBySangue(@PathVariable String sangue) {
+		return repository.findAllBySangueContainingIgnoreCase(sangue).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PostMapping
